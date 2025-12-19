@@ -1,0 +1,5 @@
+__pycache__/
+unauthorized/
+database/
+notifier.py
+.env

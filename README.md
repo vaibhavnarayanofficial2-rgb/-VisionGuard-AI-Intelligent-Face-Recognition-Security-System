@@ -1,24 +1,22 @@
-# 🛡️ VisionGuard AI: Intelligent Security Ecosystem
+# 🛡️ VisionGuard AI: Intelligent Face Recognition Security System
 
-VisionGuard AI ek advanced security system hai jo **Computer Vision** aur **Generative AI** ka use karke aapke ghar ya office ko secure banata hai. Ye system sirf insaan ko detect nahi karta, balki unhe pehchanta bhi hai aur anjaan logon ki detailed report banata hai.
+**VisionGuard AI** ek advanced Python-based security system hai jo real-time mein chehron ko pehchanta hai. Ye "Authorized" (Boss) aur "Unauthorized" (Intruder) ke beech farq karta hai aur turant alerts bhejta hai.
 
-## ✨ Key Features
-- **Real-time Face Recognition:** YOLOv8 aur DeepFace ka use karke Staff aur Strangers mein farq pehchanta hai.
-- **Voice Alarm System:** Anjaan vyakti ke dikhte hi system bol kar alert karta hai.
-- **Instant Mobile Alerts:** Pushbullet ke zariye aapke phone par turant notification bhejta hai.
-- **AI-Powered Incident Reports:** Google Gemini AI har stranger ki photo analyze karta hai aur unki description (kapde, behavior) ki report taiyar karta hai.
-- **Interactive Dashboard:** Streamlit dashboard jahan aap purane saare alerts aur reports dekh sakte hain.
+## ✨ Features
+* **Real-time Recognition:** OpenCV aur LBPH algorithm ka use karke instant face detection.
+* **Voice Alerts:** Intruder dikhte hi system "Intruder Alert" bolta hai (pyttsx3).
+* **Mobile Notifications:** Pushbullet API ke zariye aapke phone par turant alert message jaata hai.
+* **Privacy Protected:** Aapka personal face data aur API keys `.gitignore` ke zariye secure hain.
 
 ## 🛠️ Tech Stack
-- **Language:** Python 3.9+
-- **Vision:** OpenCV, Ultralytics YOLOv8, DeepFace
-- **AI/LLM:** Google Gemini Pro Vision API
-- **Alerts:** Pushbullet API, Pyttsx3 (Text-to-Speech)
-- **UI:** Streamlit
+* **Language:** Python 3.x
+* **Computer Vision:** OpenCV (opencv-contrib-python)
+* **Alerts:** Pushbullet API & pyttsx3 (Text-to-Speech)
+* **Data Handling:** NumPy
 
 ## 🚀 Setup & Installation
 
-1. **Clone the repo:**
-   ```bash
-   git clone [https://github.com/vaibhavnarayanofficial2-rgb/VisionGuard-AI.git](https://github.com/vaibhavnarayanofficial2-rgb/VisionGuard-AI.git)
-   cd VisionGuard-AI
+### 1. Repository Clone Karein
+```bash
+git clone [https://github.com/your-username/VisionGuard_AI.git](https://github.com/your-username/VisionGuard_AI.git)
+cd VisionGuard_AI

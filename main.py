@@ -1,86 +1,50 @@
-import pyttsx3
 import cv2
-import os
+import pyttsx3
+import threading
 import time
-from ultralytics import YOLO
-from deepface import DeepFace
-from reporter import get_ai_report 
-from notifier import send_alert # WhatsApp ki jagah Pushbullet wala function
+from notifier import send_alert
 
-# Voice engine setup
+# Setup
+recognizer = cv2.face.LBPHFaceRecognizer_create()
+recognizer.read('trainer.yml') # Aapki training file
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 engine = pyttsx3.init()
-voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[1].id) 
 
-# 1. Models aur Folders set karein
-model = YOLO('yolov8n.pt') 
-db_path = "database" 
-save_folder = "unauthorized"
-
-if not os.path.exists(save_folder):
-    os.makedirs(save_folder)
+def speak(text):
+    engine.say(text)
+    engine.runAndWait()
 
 cap = cv2.VideoCapture(0)
-last_captured = 0 
+last_alert_time = 0
 
-print("🚀 VisionGuard AI Engine is Running... Press 'q' to stop.")
+while True:
+    ret, frame = cap.read()
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
 
-while cap.isOpened():
-    success, frame = cap.read()
-    if not success:
-        break
+    for (x, y, w, h) in faces:
+        id, confidence = recognizer.predict(gray[y:y+h, x:x+w])
 
-    results = model(frame, verbose=False)
-    
-    for r in results:
-        for box in r.boxes:
-            if int(box.cls[0]) == 0:
-                x1, y1, x2, y2 = map(int, box.xyxy[0])
-                
-                try:
-                    face_match = DeepFace.find(frame[y1:y2, x1:x2], db_path=db_path, enforce_detection=False)
-                    
-                    if len(face_match) > 0 and not face_match[0].empty:
-                        name = face_match[0]['identity'][0].split(os.sep)[-1].split('.')[0]
-                        label, color = f"STAFF: {name}", (0, 255, 0)
-                    else:
-                        label, color = "STRANGER ALERT!", (0, 0, 255)
-                        
-                        current_time = time.time()
-                        # Har 20 second mein alert trigger hoga
-                        if current_time - last_captured > 20: 
-                            # 1. Voice Alarm (Pehle computer bolega)
-                            print("🔊 Playing Voice Alert...")
-                            engine.say("Alert! Unauthorized person detected")
-                            engine.runAndWait()
+        # Confidence jitna kam hoga, matching utni achi hogi (0 to 100)
+        if confidence < 50:
+            name = "AUTHORIZED: BOSS"
+            color = (0, 255, 0) # Green
+        else:
+            name = "UNAUTHORIZED!"
+            color = (0, 0, 255) # Red
+            
+            # Alert Logic for Unknown
+            current_time = time.time()
+            if current_time - last_alert_time > 20:
+                threading.Thread(target=speak, args=("Intruder Alert!",)).start()
+                send_alert("🚨 Warning", "Unknown person spotted!")
+                last_alert_time = current_time
 
-                            # 2. Push Notification (Phone par turant message jayega)
-                            print("📲 Sending Pushbullet Notification...")
-                            send_alert(f"⚠️ Security Alert: An unknown person was detected at {time.strftime('%H:%M:%S')}")
+        cv2.rectangle(frame, (x, y), (x+w, y+h), color, 2)
+        cv2.putText(frame, name, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
 
-                            # 3. Photo Capture
-                            timestamp = int(current_time)
-                            img_path = f"{save_folder}/intruder_{timestamp}.jpg"
-                            cv2.imwrite(img_path, frame)
-                            print(f"⚠️ Stranger photo saved at {img_path}")
-                            
-                            # 4. Gemini Analysis (Reporting)
-                            print("🤖 Gemini is analyzing the situation...")
-                            report = get_ai_report(img_path)
-                            print(f"📄 AI REPORT: {report}\n")
-                            
-                            last_captured = current_time
-
-                except Exception as e:
-                    label, color = "Scanning...", (255, 255, 0)
-
-                cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
-                cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
-
-    cv2.imshow("VisionGuard - Live Security Feed", frame)
-
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+    cv2.imshow('VisionGuard Secure', frame)
+    if cv2.waitKey(1) & 0xFF == ord('q'): break
 
 cap.release()
 cv2.destroyAllWindows()

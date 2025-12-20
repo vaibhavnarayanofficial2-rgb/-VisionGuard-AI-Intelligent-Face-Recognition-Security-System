@@ -1,5 +1,20 @@
-__pycache__/
-unauthorized/
-database/
-notifier.py
+# 1. API Keys & Sensitive Info
 .env
+token.txt
+pushbullet_api.key
+
+# 2. Personal Face Data (Database)
+faces/
+unauthorized/
+authorized/
+*.jpg
+*.png
+
+# 3. AI Brain (Trainer file)
+trainer.yml
+
+# 4. System & IDE Files
+__pycache__/
+venv/
+.vscode/
+.idea/

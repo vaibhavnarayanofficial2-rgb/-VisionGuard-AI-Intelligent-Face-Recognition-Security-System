@@ -1,22 +1,24 @@
+import os
 import google.generativeai as genai
-import PIL.Image
+from dotenv import load_dotenv
 
-# 1. Apni purani API key yahan paste karo
-genai.configure(api_key="AIzaSyD3d1adZaRBd-HsjjczBXFUU6ThZQ4G0_E")
+load_dotenv()
+GEMINI_KEY = os.getenv("GEMINI_API_KEY")
 
-def get_ai_report(image_path):
+def get_ai_report(log_data):
+    if not GEMINI_KEY:
+        return "Security Alert: Someone detected!"
+
     try:
-        # Gemini 1.5 Flash use kar rahe hain (kafi fast hai)
+        # Configuration setup
+        genai.configure(api_key=GEMINI_KEY)
+        
+        # Sabse stable model call karne ka tareeka
         model = genai.GenerativeModel('gemini-1.5-flash')
         
-        # Photo load karo
-        img = PIL.Image.open(image_path)
-        
-        # AI ko instruction do
-        prompt = "Explain who is this person and what is he doing in this security footage? Be concise."
-        
-        # AI se response lo
-        response = model.generate_content([prompt, img])
+        response = model.generate_content(f"Summarize this alert in 5 words: {log_data}")
         return response.text
     except Exception as e:
-        return f"AI Reporting Error: {e}"
+        # Agar AI fail ho jaye, to project crash na ho, bas ye text bhej de
+        print(f"⚠️ AI Logging Error: {e}")
+        return "Alert: Suspicious activity detected near camera!"

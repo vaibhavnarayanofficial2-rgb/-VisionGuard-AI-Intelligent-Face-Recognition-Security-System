@@ -2,18 +2,18 @@ import os
 import requests
 from dotenv import load_dotenv
 
-# .env file se keys load karein
+# Load keys from .env file
 load_dotenv()
 
-# Key ko variable mein load karein
+# Load key into variable
 PUSHBULLET_TOKEN = os.getenv("PUSHBULLET_TOKEN")
 
 def send_alert(title, body):
     """
-    Naam 'send_alert' rakha hai taaki main.py ka ImportError khatam ho jaye.
+    Function name is kept as 'send_alert' to avoid ImportError in main.py.
     """
     if not PUSHBULLET_TOKEN:
-        print("❌ Error: Pushbullet Token .env file mein nahi mila!")
+        print("Error: Pushbullet Token not found in .env file!")
         return
 
     data = {"type": "note", "title": title, "body": body}
@@ -27,9 +27,9 @@ def send_alert(title, body):
         )
         
         if response.status_code == 200:
-            print(f"✅ Alert bheja gaya: {title}")
+            print(f"Alert sent: {title}")
         else:
-            print(f"❌ Notification failed! Status: {response.status_code}")
+            print(f"Notification failed! Status: {response.status_code}")
             
     except Exception as e:
-        print(f"⚠️ Network Error: {e}")
+        print(f"Network Error: {e}")

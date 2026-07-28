@@ -1,10 +1,10 @@
 import cv2
 from ultralytics import YOLO
 
-# 1. Load the lightweight and fast YOLOv8 model
+# Load YOLOv8 lightweight model
 model = YOLO('yolov8n.pt') 
 
-# 2. Turn on the camera
+# Start camera
 cap = cv2.VideoCapture(0)
 
 print("VisionGuard AI Engine Testing... Press 'q' to stop.")
@@ -14,17 +14,17 @@ while True:
     if not success:
         break
 
-    # 3. Send frames to AI for detection
-    # We will detect objects like 'person', 'cell phone', 'knife'
+    # Run AI detection on camera frames
+    # Detect objects like person, cell phone, knife
     results = model(frame, stream=True)
 
     for r in results:
-        annotated_frame = r.plot() # Automatically creates boxes and labels
+        annotated_frame = r.plot()  # Generate detection boxes and labels
 
-    # 4. Display the result
+    # Show the detection result
     cv2.imshow("VisionGuard Test Feed", annotated_frame)
 
-    # Press 'q' to close the application
+    # Press 'q' to exit
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 

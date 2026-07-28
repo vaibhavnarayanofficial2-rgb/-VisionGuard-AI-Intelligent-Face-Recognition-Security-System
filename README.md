@@ -1,22 +1,49 @@
-# 🛡️ VisionGuard AI: Intelligent Face Recognition Security System
+# VisionGuard AI: Intelligent Face Recognition Security System
 
-**VisionGuard AI** ek advanced Python-based security system hai jo real-time mein chehron ko pehchanta hai. Ye "Authorized" (Boss) aur "Unauthorized" (Intruder) ke beech farq karta hai aur turant alerts bhejta hai.
+## Project Overview
 
-## ✨ Features
-* **Real-time Recognition:** OpenCV aur LBPH algorithm ka use karke instant face detection.
-* **Voice Alerts:** Intruder dikhte hi system "Intruder Alert" bolta hai (pyttsx3).
-* **Mobile Notifications:** Pushbullet API ke zariye aapke phone par turant alert message jaata hai.
-* **Privacy Protected:** Aapka personal face data aur API keys `.gitignore` ke zariye secure hain.
+VisionGuard AI is a Python-based security system that performs real-time face recognition using computer vision techniques.
 
-## 🛠️ Tech Stack
-* **Language:** Python 3.x
-* **Computer Vision:** OpenCV (opencv-contrib-python)
-* **Alerts:** Pushbullet API & pyttsx3 (Text-to-Speech)
-* **Data Handling:** NumPy
+The system can identify authorized and unauthorized persons and generate alerts when an unknown person is detected.
 
-## 🚀 Setup & Installation
+The main goal of this project is to provide a simple AI-based security solution using face recognition technology.
 
-### 1. Repository Clone Karein
+---
+
+## Features
+
+### Real-time Face Recognition
+
+Uses OpenCV and the LBPH (Local Binary Pattern Histogram) algorithm for face detection and recognition.
+
+### Voice Alerts
+
+When an unknown person is detected, the system generates a voice alert using pyttsx3.
+
+### Mobile Notifications
+
+Sends instant notification alerts to the user's mobile device using the Pushbullet API.
+
+### Privacy Protection
+
+Personal face data and API keys are protected using `.gitignore` to prevent sensitive files from being uploaded.
+
+---
+
+## Tools & Technologies Used
+
+- Programming Language: Python 3.x
+- Computer Vision: OpenCV (opencv-contrib-python)
+- Notifications: Pushbullet API
+- Text-to-Speech: pyttsx3
+- Data Processing: NumPy
+
+---
+
+## How to Run This Project
+
+### 1. Clone the Repository
+
 ```bash
-git clone [https://github.com/your-username/VisionGuard_AI.git](https://github.com/your-username/VisionGuard_AI.git)
+git clone https://github.com/your-username/VisionGuard_AI.git
 cd VisionGuard_AI

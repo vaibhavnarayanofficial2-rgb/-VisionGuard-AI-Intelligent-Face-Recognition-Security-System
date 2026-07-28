@@ -10,25 +10,25 @@ st.set_page_config(page_title="VisionGuard AI Dashboard", layout="wide")
 load_dotenv()
 
 def main():
-    st.title("🛡️ VisionGuard AI: Security Dashboard")
+    st.title("VisionGuard AI: Security Dashboard")
     st.sidebar.header("System Status")
     
     # Sidebar status indicators
     if os.getenv("GEMINI_API_KEY"):
-        st.sidebar.success("✅ AI Engine: Connected")
+        st.sidebar.success("AI Engine: Connected")
     else:
-        st.sidebar.error("❌ AI Engine: Disconnected")
+        st.sidebar.error("AI Engine: Disconnected")
         
     if os.getenv("PUSHBULLET_TOKEN"):
-        st.sidebar.success("✅ Alerts: Active")
+        st.sidebar.success("Alerts: Active")
     else:
-        st.sidebar.error("❌ Alerts: Offline")
+        st.sidebar.error("Alerts: Offline")
 
     # Main Dashboard Area
     col1, col2 = st.columns([2, 1])
 
     with col1:
-        st.subheader("📹 Live Monitoring Analysis")
+        st.subheader("Live Monitoring Analysis")
         st.info("AI is currently scanning the camera feed... (Close the camera window to stop)")
         
         # Create a placeholder for real-time updates
@@ -36,7 +36,7 @@ def main():
         
         # Here we can simulate logs or read them from a real file
         st.markdown("---")
-        st.subheader("📄 Security Incident Logs")
+        st.subheader("Security Incident Logs")
         if os.path.exists("security_logs.txt"):
             with open("security_logs.txt", "r") as f:
                 logs = f.readlines()
@@ -46,13 +46,13 @@ def main():
             st.write("No incidents recorded yet. System is clear.")
 
     with col2:
-        st.subheader("🔔 Quick Actions")
+        st.subheader("Quick Actions")
         if st.button("Clear Logs"):
             if os.path.exists("security_logs.txt"):
                 os.remove("security_logs.txt")
                 st.warning("Logs cleared!")
         
-        st.subheader("⚙️ Configuration")
+        st.subheader("Configuration")
         st.write(f"**Alert Interval:** 20 Seconds")
         st.write(f"**Detection Mode:** Face/Motion")
 

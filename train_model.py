@@ -2,7 +2,7 @@ import cv2
 import os
 import numpy as np
 
-# Recognizer initialize karein
+# Initialize recognizer
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 detector = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
@@ -15,11 +15,11 @@ def get_images_and_labels(path):
         faces = detector.detectMultiScale(img)
         for (x, y, w, h) in faces:
             face_samples.append(img[y:y+h, x:x+w])
-            ids.append(1) # ID 1 aapke liye hai
+            ids.append(1) # ID 1 is assigned to you
     return face_samples, ids
 
-print("⏳ Training faces... Rukiye thoda.")
+print("Training faces... Please wait.")
 faces, ids = get_images_and_labels('faces')
 recognizer.train(faces, np.array(ids))
 recognizer.save('trainer.yml')
-print("✅ Training Done! 'trainer.yml' file ban gayi hai.")
+print("Training Done! 'trainer.yml' file has been created.")

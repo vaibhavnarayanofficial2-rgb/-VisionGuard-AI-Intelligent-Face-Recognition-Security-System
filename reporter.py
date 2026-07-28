@@ -13,12 +13,12 @@ def get_ai_report(log_data):
         # Configuration setup
         genai.configure(api_key=GEMINI_KEY)
         
-        # Sabse stable model call karne ka tareeka
+        # Method to call the most stable model
         model = genai.GenerativeModel('gemini-1.5-flash')
         
         response = model.generate_content(f"Summarize this alert in 5 words: {log_data}")
         return response.text
     except Exception as e:
-        # Agar AI fail ho jaye, to project crash na ho, bas ye text bhej de
-        print(f"⚠️ AI Logging Error: {e}")
+        # If AI fails, prevent project crash and return this message
+        print(f"AI Logging Error: {e}")
         return "Alert: Suspicious activity detected near camera!"

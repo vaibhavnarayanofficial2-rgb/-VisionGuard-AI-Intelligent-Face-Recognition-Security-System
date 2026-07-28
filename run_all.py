@@ -22,7 +22,7 @@ def start_project():
     subprocess.Popen(["streamlit", "run", "app.py"])
 
     # Wait for dashboard to initialize
-    time.sleep(5) 
+    time.sleep(5)
 
     # 4. Start Main AI Engine
     print("Starting AI Guard Engine...")
